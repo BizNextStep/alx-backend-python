@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
-
+'''Asynchronous Python
+'''
+from typing import List
 import asyncio
 
-task_wait_n = __import__('4-tasks').task_wait_n
 
-n = 5
-max_delay = 6
-print(asyncio.run(task_wait_n(n, max_delay)))
+time_wait_random = __import__('3-tasks').task_wait_random
+
+
+async def task_wait_n(n: int, max_delay: int) -> List[float]:
+    '''Return a list of awaited responses from the previous function
+    '''
+    res = await asyncio.gather(
+        *tuple(map(lambda _: time_wait_random(max_delay), range(n)))
+    )
+    return sorted(res)

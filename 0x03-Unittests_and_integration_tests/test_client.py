@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Unittests for GithubOrgClient class."""
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, PropertyMock
 from parameterized import parameterized, parameterized_class
 from client import GithubOrgClient
 from fixtures import org_payload, repos_payload, expected_repos, apache2_repos
@@ -92,6 +92,11 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         """Test public_repos method"""
         client = GithubOrgClient("test_org")
         self.assertEqual(client.public_repos(), self.expected_repos)
+
+    def test_public_repos_with_license(self):
+        """Test public_repos method with license"""
+        client = GithubOrgClient("test_org")
+        self.assertEqual(client.public_repos(license="apache-2.0"), self.apache2_repos)
 
 class MockResponse:
     """Mock response class for requests.get"""
